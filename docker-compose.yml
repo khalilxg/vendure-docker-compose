@@ -12,17 +12,20 @@ services:
       DATABASE_PORT: 5432
     depends_on:
       - database
-      - worker
+    restart: unless-stopped
+
   worker:
     build:
       context: .
       dockerfile: Dockerfile
-    command: ["./wait-for-it.sh", "database:5432", "--", "yarn", "start:worker"]
+    command: ["sh", "-c", "./wait-for-it.sh database:5432 -- ./wait-for-it.sh server:3000 -- yarn start:worker"]
     environment:
       DATABASE_HOST: database
       DATABASE_PORT: 5432
     depends_on:
-      - database
+      - server
+    restart: unless-stopped
+
   storefront:
     build:
       context: .
@@ -35,6 +38,10 @@ services:
       SERVER_API_HOST: http://server
       SERVER_API_PORT: 3000
       SERVER_API_PATH: shop-api
+    depends_on:
+      - server
+    restart: unless-stopped
+
   database:
     image: postgres:17
     volumes:
@@ -44,3 +51,4 @@ services:
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: vendure
+    restart: unless-stopped
