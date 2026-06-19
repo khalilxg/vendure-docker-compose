@@ -36,7 +36,7 @@ services:
       SERVER_API_PORT: 3000
       SERVER_API_PATH: shop-api
   database:
-    image: postgres
+    image: postgres:17
     volumes:
       - /var/lib/postgresql/data
     ports:
