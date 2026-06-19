@@ -35,7 +35,7 @@ export const config: VendureConfig = {
     },
     dbConnectionOptions: {
         type: 'postgres',
-        synchronize: false, // turn this off for production
+        synchronize: true, // turn this off for production
         logging: false,
         database: 'vendure',
         host: process.env.DATABASE_HOST || 'localhost',
