@@ -35,7 +35,7 @@ export const config: VendureConfig = {
     },
     dbConnectionOptions: {
         type: 'postgres',
-        synchronize: true, // turn this off for production
+        synchronize: false, // turn this off for production
         logging: false,
         database: 'vendure',
         host: process.env.DATABASE_HOST || 'localhost',
@@ -52,7 +52,7 @@ export const config: VendureConfig = {
         AssetServerPlugin.init({
             route: 'assets',
             assetUploadDir: path.join(__dirname, '../static/assets'),
-            assetUrlPrefix: 'http://localhost:3000/assets/',
+            assetUrlPrefix: 'http://0.0.0.0:3000/assets/',
         }),
         DefaultJobQueuePlugin,
         DefaultSearchPlugin,
