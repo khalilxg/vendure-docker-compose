@@ -52,7 +52,7 @@ export const config: VendureConfig = {
         AssetServerPlugin.init({
             route: 'assets',
             assetUploadDir: path.join(__dirname, '../static/assets'),
-            assetUrlPrefix: 'http://0.0.0.0:3000/assets/',
+            assetUrlPrefix: 'https://e08s4sc40wgs4kg0sg0k4okg.morched.tn/assets/',
         }),
         DefaultJobQueuePlugin,
         DefaultSearchPlugin,
