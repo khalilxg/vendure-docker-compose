@@ -1,5 +1,7 @@
 FROM node:16
 ARG STOREFRONT_VERSION
+ARG SERVER_API_HOST=http://server
+ARG SERVER_API_PORT=3000
 WORKDIR /usr/src/app
 
 RUN echo $STOREFRONT_VERSION
@@ -7,6 +9,15 @@ ARG ZIP_URL=https://github.com/vendure-ecommerce/storefront-angular-starter/arch
 RUN curl "$ZIP_URL" -L -o storefront.zip
 RUN unzip storefront.zip
 RUN cp -a "storefront-angular-starter-$STOREFRONT_VERSION/." .
+
+# Patch the hardcoded API URL that's baked into the browser bundle at build time.
+# environment.docker.ts ships with apiHost: 'http://localhost' / apiPort: 3000,
+# which is meaningless once it's running in a visitor's browser.
+RUN sed -i \
+    -e "s#apiHost: 'http://localhost'#apiHost: '${SERVER_API_HOST}'#" \
+    -e "s#apiPort: 3000#apiPort: ${SERVER_API_PORT}#" \
+    src/environments/environment.docker.ts
+
 RUN yarn
 RUN yarn build:ssr:docker
 CMD ["node", "dist/server/main.js"]
