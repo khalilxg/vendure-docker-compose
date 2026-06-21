@@ -34,14 +34,13 @@ services:
       dockerfile: Dockerfile-storefront
       args:
         STOREFRONT_VERSION: 0.3.1
+        # ⚠️ Replace with your actual public "server" domain from Coolify
+        SERVER_API_HOST: https://e08s4sc40wgs4kg0sg0k4okg.morched.tn
+        SERVER_API_PORT: 443
     ports:
       - 4000:4000
     expose:
       - "4000"
-    environment:
-      SERVER_API_HOST: http://server
-      SERVER_API_PORT: 3000
-      SERVER_API_PATH: shop-api
     depends_on:
       - server
     restart: unless-stopped
